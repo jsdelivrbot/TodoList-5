@@ -23,6 +23,11 @@ class TodoList extends Component {
 			<ul className="list-group">
 				{this.renderTodos()}
 			</ul>
+			<div className="text-xs-right">
+				<Link className="btn btn-primary" to="/todos/new">
+					New 'to do' activity
+				</Link>
+			</div>
 		</div>
 		);
 	}

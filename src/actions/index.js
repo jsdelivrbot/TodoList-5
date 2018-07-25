@@ -10,36 +10,27 @@ const API = `${ROOT_URL}/api`;
 const TODO_API = `${API}/todos`;
 
 export function fetchTodos() {
-	const request = axios.get(`${ROOT_URL}/todos${API_KEY}`);
-
 	return {
 		type: FETCH_ACTIVITIES,
-		payload: request
 	};
 }
 
-export function createTodo(values, callback) {
-	const request = axios.post(`${ROOT_URL}/todos${API_KEY}`, values)
-		.then(() => callback());
-
+export function createTodo(values) {
 	return {
 		type: CREATE_TODO,
-		payload: request
+		payload: values
 	};
 }
 
 export function fetchTodo(id) {
-	const request = axios.get(`${ROOT_URL}/todos/${id}${API_KEY}`);
-
 	return {
 		type: FETCH_TODO,
-		payload: request
+		payload: id
 	};
 }
 
 export function deleteTodo(id, callback) {
-	axios.delete(`${ROOT_URL}/todos/${id}${API_KEY}`)
-		.then(() => callback());
+	callback();
 
 	return {
 		type: DELETE_TODO,
