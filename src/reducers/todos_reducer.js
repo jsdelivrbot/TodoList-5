@@ -1,18 +1,14 @@
-import { FETCH_TODOS, FETCH_TODO, DELTE_TODO } from '../actions';
+import { DELETE_TODO, CREATE_TODO, CHECK_TODOS } from '../actions';
 import _ from 'lodash';
 
 export default function(state = {}, action) {
 	switch (action.type) {
-		case FETCH_TODOS:
-			return 
-		case FETCH_TODO:
-			//const TODO = action.payload;
-			//const newState = { ... state };
-			//newState[TODO.id] = TODO;
-			//return newState;
-			return { ...state, [action.payload.data.id]: action.payload.data };
-		case DELTE_TODO:
+		case DELETE_TODO:
 			return _.omit(state, action.payload);
+		case CREATE_TODO:
+			return {...state, [action.payload.id] : action.payload };
+		case CHECK_TODOS:
+			_.map(state, element =>	element.pending = (element.timeOut < Date.now()));
 		default:
 			return state;
 	}

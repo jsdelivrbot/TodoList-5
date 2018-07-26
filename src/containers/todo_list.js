@@ -1,15 +1,43 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { checkTodos } from '../actions/index';
 import _ from 'lodash'
 
+const DELAY = 1000;
+
 class TodoList extends Component {
-	renderPosts() {
+	constructor (props) {
+		super(props);
+
+		this.timerId;	
+	}
+
+	check = () => {
+		checkTodos();
+		this.timerId = setTimeout(this.check, DELAY);
+	}
+
+	componentDidMount() {
+		this.timerId = setTimeout(this.check, DELAY);
+	}
+
+	componentWillUnmount() {
+		clearTimeout(this.timerId);
+	}
+
+	renderTodos() {
 		return _.map(this.props.todos, todo => {
 			return (
-				<li className="list-group-item" key={todo.id}>
+				<li
+					className="list-group-item"
+					key={todo.id}
+					style={{
+      			textDecoration: todo.pending ? 'none' : 'line-through'
+    			}}
+				>
 					<Link to={`/todos/${todo.id}`}>
-						{todo.title}
+						<div>{todo.title} | {todo.timeout.toString()}</div>
 					</Link>
 				</li>
 			);
@@ -25,7 +53,7 @@ class TodoList extends Component {
 			</ul>
 			<div className="text-xs-right">
 				<Link className="btn btn-primary" to="/todos/new">
-					New 'to do' activity
+					New activity
 				</Link>
 			</div>
 		</div>
@@ -37,4 +65,4 @@ function mapStateToProps(state) {
 	return { todos: state.todos };
 }
 
-export default connect(mapStateToProps, { fetchTodos })(TodoList);
+export default connect(mapStateToProps, { checkTodos })(TodoList);
