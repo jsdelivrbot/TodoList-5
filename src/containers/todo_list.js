@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { checkTodos } from '../actions/index';
 import _ from 'lodash'
+import { bindActionCreators } from 'C:/Users/Vitaliy.Pankov/AppData/Local/Microsoft/TypeScript/2.9/node_modules/redux';
 
 const DELAY = 1000;
 
@@ -14,7 +15,8 @@ class TodoList extends Component {
 	}
 
 	check = () => {
-		checkTodos();
+		this.props.checkTodos();
+		console.log('I\'m working...');
 		this.timerId = setTimeout(this.check, DELAY);
 	}
 
@@ -24,6 +26,12 @@ class TodoList extends Component {
 
 	componentWillUnmount() {
 		clearTimeout(this.timerId);
+	}
+	
+	formatDate(todo) {
+		let timeout = new Date(todo.timeout);
+
+		return timeout.toString();
 	}
 
 	renderTodos() {
@@ -37,7 +45,7 @@ class TodoList extends Component {
     			}}
 				>
 					<Link to={`/todos/${todo.id}`}>
-						<div>{todo.title} | {todo.timeout.toString()}</div>
+						<div>{todo.title} | {this.formatDate(todo)}</div>
 					</Link>
 				</li>
 			);
@@ -65,4 +73,8 @@ function mapStateToProps(state) {
 	return { todos: state.todos };
 }
 
-export default connect(mapStateToProps, { checkTodos })(TodoList);
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators({ checkTodos }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

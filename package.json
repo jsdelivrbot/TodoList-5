@@ -22,6 +22,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-preset-stage-1": "^6.1.18",
+    "dot-prop-immutable": "^1.4.0",
     "lodash": "^3.10.1",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",

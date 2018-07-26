@@ -8,7 +8,10 @@ export default function(state = {}, action) {
 		case CREATE_TODO:
 			return {...state, [action.payload.id] : action.payload };
 		case CHECK_TODOS:
-			_.map(state, element =>	element.pending = (element.timeOut < Date.now()));
+			return _.mapValues(state, key => {
+				key.pending = (key.timeOut < Date.now())
+				return key;
+			});
 		default:
 			return state;
 	}
